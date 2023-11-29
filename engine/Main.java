@@ -10,7 +10,7 @@ public class Main {
         ChessController controller = new ChessController() {
             @Override
             public void start(ChessView view) {
-
+                Game game = new Game();
             }
 
             @Override
