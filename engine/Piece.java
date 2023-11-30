@@ -6,10 +6,10 @@ import chess.PlayerColor;
 public class Piece {
     private Board board;
 
-    private PlayerColor color;
-    private PieceType type;
+    protected PlayerColor color;
+    protected PieceType type;
 
-    private int x, y;
+    protected int x, y;
 
     Piece(PlayerColor color, PieceType type) {
         this.color = color;

@@ -10,6 +10,10 @@ public class Board {
 
     private Columns columns;
 
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
+
     Board(Game game) {
         this.game = game;
         // Add pieces for each player, specify color and position
