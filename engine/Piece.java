@@ -9,6 +9,8 @@ public class Piece {
     private PlayerColor color;
     private PieceType type;
 
+    private int x, y;
+
     Piece(PlayerColor color, PieceType type) {
         this.color = color;
         this.type = type;
