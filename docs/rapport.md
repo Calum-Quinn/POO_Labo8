@@ -7,7 +7,7 @@
 
 ![img.png](img.png)
 
-## Choix d'imlémentation
+## Choix d'implémentation
 
 - Les classes `Pawn`, `Rook` et `King` ont une méthode `hasMoved` qui permet de savoir si la pièce a déjà bougé. Cela
   permet de savoir si le roque ou la prise en passant sont possibles ou non.
