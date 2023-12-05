@@ -1,9 +1,9 @@
-package src.chess.views;
+package chess.views;
 
-import src.chess.ChessController;
-import src.chess.ChessView;
-import src.chess.PieceType;
-import src.chess.PlayerColor;
+import chess.ChessController;
+import chess.ChessView;
+import chess.PieceType;
+import chess.PlayerColor;
 
 import java.util.HashMap;
 

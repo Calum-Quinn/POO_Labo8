@@ -3,7 +3,6 @@ package engine;
 import chess.PlayerColor;
 import engine.piece.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Board {
