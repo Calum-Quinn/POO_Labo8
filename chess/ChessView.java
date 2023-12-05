@@ -1,4 +1,4 @@
-package chess;
+package src.chess;
 
 /**
  * Méthodes fournies par les vues.

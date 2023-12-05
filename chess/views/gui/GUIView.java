@@ -1,11 +1,11 @@
-package chess.views.gui;
+package src.chess.views.gui;
 
-import chess.ChessController;
-import chess.PieceType;
-import chess.PlayerColor;
-import chess.assets.GuiAssets;
-import chess.views.BaseView;
-import chess.views.DrawableResource;
+import src.chess.ChessController;
+import src.chess.PieceType;
+import src.chess.PlayerColor;
+import src.chess.assets.GuiAssets;
+import src.chess.views.BaseView;
+import src.chess.views.DrawableResource;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -16,9 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
 
 public class GUIView extends BaseView<ImageIcon> {
 
@@ -248,7 +245,7 @@ public class GUIView extends BaseView<ImageIcon> {
     boardConstrain.add(chessBoard);
     gui.add(boardConstrain);
 
-    // create the chess board squares
+    // create the src.chess board squares
     for (int i = 0; i < chessBoardSquares.length; i++) {
       for (int j = 0; j < chessBoardSquares[i].length; j++) {
         ChessSquare b = new ChessSquare(i, j);
@@ -259,7 +256,7 @@ public class GUIView extends BaseView<ImageIcon> {
     }
 
     /*
-     * fill the chess board
+     * fill the src.chess board
      */
     chessBoard.add(new JLabel(""));
     // fill the top row
