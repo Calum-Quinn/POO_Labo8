@@ -2,8 +2,6 @@ package engine;
 
 import chess.ChessController;
 import chess.ChessView;
-import chess.PieceType;
-import engine.piece.Piece;
 
 public class Game implements ChessController {
     private Board board;
