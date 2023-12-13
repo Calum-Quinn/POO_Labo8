@@ -4,8 +4,8 @@ import chess.PieceType;
 import chess.PlayerColor;
 
 public class Rook extends Piece {
-    public Rook(PlayerColor color, Position position) {
-        super(color, PieceType.ROOK, position);
+    public Rook(PlayerColor color) {
+        super(color, PieceType.ROOK);
     }
 
     public boolean hasMoved() {

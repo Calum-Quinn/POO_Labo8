@@ -4,7 +4,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 
 public class Knight extends Piece {
-    public Knight(PlayerColor color, Position position) {
-        super(color, PieceType.KNIGHT, position);
+    public Knight(PlayerColor color) {
+        super(color, PieceType.KNIGHT);
     }
 }
