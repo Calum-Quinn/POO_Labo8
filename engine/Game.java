@@ -23,6 +23,11 @@ public class Game implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
+        // Check if there is a piece on the destination square
+        boolean capture = board[toX][toY] != null;
+
+
+
         return false;
     }
 

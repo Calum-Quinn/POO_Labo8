@@ -7,4 +7,9 @@ public class Bishop extends Piece {
     public Bishop(PlayerColor color) {
         super(color, PieceType.BISHOP);
     }
+
+    @Override
+    public boolean validMove() {
+        return false;
+    }
 }

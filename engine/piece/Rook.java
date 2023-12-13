@@ -11,4 +11,9 @@ public class Rook extends Piece {
     public boolean hasMoved() {
         return false;
     }
+
+    @Override
+    public boolean validMove() {
+        return false;
+    }
 }

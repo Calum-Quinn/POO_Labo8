@@ -15,4 +15,9 @@ public class Pawn extends Piece {
     public void promote(PieceType type) {
 
     }
+
+    @Override
+    public boolean validMove() {
+        return false;
+    }
 }
