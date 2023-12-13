@@ -2,7 +2,6 @@ package engine.piece;
 
 import chess.PieceType;
 import chess.PlayerColor;
-import engine.Position;
 
 public class Pawn extends Piece {
     public Pawn(PlayerColor color, Position position) {
