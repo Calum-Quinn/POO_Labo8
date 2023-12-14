@@ -10,6 +10,6 @@ public class Knight extends Piece {
 
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
-        return false;
+        return Math.abs(fromX - toX) == 1 && Math.abs(fromY - toY) == 2 || Math.abs(fromX - toX) == 2 && Math.abs(fromY - toY) == 1;
     }
 }
