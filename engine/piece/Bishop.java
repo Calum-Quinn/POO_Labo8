@@ -10,6 +10,7 @@ public class Bishop extends Piece {
 
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
+
         return false;
     }
 }

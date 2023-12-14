@@ -27,8 +27,8 @@ public class Pawn extends SpecialPiece {
             if (fromY == toY - whiteBlack) {
                 return true;
             }
-            // 2 square, check that the pawn is on the correct row
-            else return fromY == toY - 2*whiteBlack && (whiteBlack == 1 && toY == 3 || whiteBlack == - 1 && toY == 4);
+            // 2 square, check that the pawn is on the correct row and no piece in front
+            else return fromY == toY - 2*whiteBlack && board[fromX][toY - whiteBlack] == null && (whiteBlack == 1 && toY == 3 || whiteBlack == - 1 && toY == 4);
         }
         // Capture
         else if (capture && Math.abs(fromX - toX) == 1 && fromY == toY - whiteBlack) {
@@ -42,7 +42,7 @@ public class Pawn extends SpecialPiece {
                 // Check if nothing on destination square and neighboring piece is a pawn
                 return !capture && otherPawn instanceof Pawn && ((Pawn) otherPawn).hasMoved();
             }
+            return false;
         }
-        return false;
     }
 }
