@@ -20,7 +20,8 @@ public class Bishop extends Piece {
                     return false;
                 }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 }

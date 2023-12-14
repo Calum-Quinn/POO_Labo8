@@ -23,11 +23,27 @@ public class Game implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
+
+        Piece piece = board[fromX][fromY];
+
+        if (piece == null || fromX == toX && fromY == toY) {
+            return false;
+        }
+
         // Check if there is a piece on the destination square
         boolean capture = board[toX][toY] != null;
 
-        Piece piece = board[fromX][fromY];
-        return piece.validMove(fromX,fromY,toX,toY,board, capture);
+        if (piece.validMove(fromX,fromY,toX,toY,board, capture)) {
+
+            // Move piece
+            board[toX][toY] = piece;
+            view.putPiece(piece.getType(),piece.getColor(),toX,toY);
+            board[fromX][fromY] = null;
+            view.removePiece(fromX,fromY);
+
+            return true;
+        }
+        return false;
     }
 
     /**

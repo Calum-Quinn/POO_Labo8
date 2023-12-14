@@ -17,17 +17,22 @@ public class Rook extends SpecialPiece {
             int xSign = xDiff >= 0 ? xDiff == 0 ? 0 : 1 : -1;
             int ySign = yDiff >= 0 ? yDiff == 0 ? 0 : 1 : -1;
             // Check no pieces in between
-            for (int i = 1; i < Math.abs(xDiff); ++i) {
+            for (int i = 1; i < Math.abs(Math.max(xDiff,yDiff)); ++i) {
                 if (board[fromX + i * xSign][fromY + i * ySign] != null) {
-                    // Castle
-                    // Checks:
-                        // This piece has not moved
-                        // The piece is either moving 2 spaces left or 3 right
-                        // The king is in its starting position and has not moved (one check for each colour)
-                    return !this.hasMoved() && (xDiff == -2 || xDiff == 3) && (color == PlayerColor.WHITE ? (board[4][0] instanceof King && !((King) board[4][0]).hasMoved()) : (board[4][7] instanceof King && !((King) board[4][7]).hasMoved()));
+                    return false;
                 }
             }
+
+            // COMMENT L'ORDI SAIT SI ON CASTLE???
+
+//            // Castle
+//            // Checks:
+//            // This piece has not moved
+//            // The piece is either moving 2 spaces left or 3 right
+//            // The king is in its starting position and has not moved (one check for each colour)
+//            return !this.hasMoved() && (xDiff == -2 || xDiff == 3) && (color == PlayerColor.WHITE ? (board[4][0] instanceof King && !((King) board[4][0]).hasMoved()) : (board[4][7] instanceof King && !((King) board[4][7]).hasMoved()));
+            return true;
         }
-        return true;
+        return false;
     }
 }
