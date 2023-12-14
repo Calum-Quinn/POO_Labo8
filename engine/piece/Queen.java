@@ -11,35 +11,9 @@ public class Queen extends Piece {
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
 
-
-        // ON REGARDE QUE CE SOIT LA MÊME CHOSE QUE BISHOP ET ROOK, JE SAIS PAS COMMENT APPELER LEUR VALIDMOVE DEPUIS LA
-
-        // Check if diagonal move (e.g. bishop)
-        if (Math.abs(fromX - toX) == Math.abs(fromY - toY)) {
-            int xSign = toX - fromX >= 0 ? 1 : -1;
-            int ySign = toY - fromY >= 0 ? 1 : -1;
-            // Check no pieces in between
-            for (int i = 1; i < Math.abs(fromX - toX); ++i) {
-                if (board[fromX + i * xSign][fromY + i * ySign] != null) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        // Straight/normal (e.g. rook)
-        int xDiff = toX - fromX;
-        int yDiff = toY - fromY;
-        if (Math.abs(xDiff) == 0 || Math.abs(yDiff) == 0) {
-            int xSign = xDiff >= 0 ? xDiff == 0 ? 0 : 1 : -1;
-            int ySign = yDiff >= 0 ? yDiff == 0 ? 0 : 1 : -1;
-            // Check no pieces in between
-            for (int i = 1; i < Math.abs(Math.max(xDiff,yDiff)); ++i) {
-                if (board[fromX + i * xSign][fromY + i * ySign] != null) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+        // Check if valid bishop or rook move
+        Bishop bishop = new Bishop(color,board);
+        Rook rook = new Rook(color,board);
+        return bishop.validMove(fromX,fromY,toX,toY,board,capture) || rook.validMove(fromX,fromY,toX,toY,board,capture);
     }
 }
