@@ -4,12 +4,16 @@ import chess.PieceType;
 import chess.PlayerColor;
 
 public abstract class Piece {
-    private PlayerColor color;
-    private PieceType type;
+    protected PlayerColor color;
 
-    public Piece(PlayerColor color, PieceType type) {
+    protected PieceType type;
+
+    protected Piece[][] board;
+
+    public Piece(PlayerColor color, PieceType type, Piece[][] board) {
         this.color = color;
         this.type = type;
+        this.board = board;
     }
 
     public PlayerColor getColor() {
@@ -20,5 +24,5 @@ public abstract class Piece {
         return type;
     }
 
-    public abstract boolean validMove();
+    public abstract boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture);
 }

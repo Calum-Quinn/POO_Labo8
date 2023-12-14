@@ -4,12 +4,12 @@ import chess.PieceType;
 import chess.PlayerColor;
 
 public class Queen extends Piece {
-    public Queen(PlayerColor color) {
-        super(color, PieceType.QUEEN);
+    public Queen(PlayerColor color, Piece[][] board) {
+        super(color, PieceType.QUEEN, board);
     }
 
     @Override
-    public boolean validMove() {
+    public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
         return false;
     }
 }

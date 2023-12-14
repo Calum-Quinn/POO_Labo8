@@ -3,17 +3,13 @@ package engine.piece;
 import chess.PieceType;
 import chess.PlayerColor;
 
-public class King extends Piece {
-    public King(PlayerColor color) {
-        super(color, PieceType.KING);
-    }
-
-    public boolean hasMoved() {
-        return false;
+public class King extends SpecialPiece {
+    public King(PlayerColor color, Piece[][] board) {
+        super(color, PieceType.KING, board);
     }
 
     @Override
-    public boolean validMove() {
+    public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
         return false;
     }
 }
