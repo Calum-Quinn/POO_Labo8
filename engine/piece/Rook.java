@@ -20,10 +20,11 @@ public class Rook extends SpecialPiece {
             for (int i = 1; i < Math.abs(xDiff); ++i) {
                 if (board[fromX + i * xSign][fromY + i * ySign] != null) {
                     // Castle
-
-
-
-                    return false;
+                    // Checks:
+                        // This piece has not moved
+                        // The piece is either moving 2 spaces left or 3 right
+                        // The king is in its starting position and has not moved (one check for each colour)
+                    return !this.hasMoved() && (xDiff == -2 || xDiff == 3) && (color == PlayerColor.WHITE ? (board[4][0] instanceof King && !((King) board[4][0]).hasMoved()) : (board[4][7] instanceof King && !((King) board[4][7]).hasMoved()));
                 }
             }
         }
