@@ -11,6 +11,9 @@ public class Game implements ChessController {
     private ChessView view;
     private Piece[][] board;
 
+    // 1 if white -1 if black
+    private int whiteToPlay;
+
     public Game() {
         board = new Piece[8][8];
     }
@@ -19,6 +22,7 @@ public class Game implements ChessController {
     public void start(ChessView view) {
         this.view = view;
         this.view.startView();
+        whiteToPlay = 1;
     }
 
     @Override
@@ -26,9 +30,16 @@ public class Game implements ChessController {
 
         Piece piece = board[fromX][fromY];
 
+        // Check piece not moving
         if (piece == null || fromX == toX && fromY == toY) {
             return false;
         }
+        // Check correct colour is playing
+        if (whiteToPlay == 1 && piece.getColor() == PlayerColor.BLACK || whiteToPlay == -1 && piece.getColor() == PlayerColor.WHITE) {
+            return false;
+        }
+        // Switch which colour is playing
+        whiteToPlay *= -1;
 
         // Check if there is a piece on the destination square
         boolean capture = board[toX][toY] != null;
