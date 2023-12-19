@@ -28,15 +28,13 @@ public class Game implements ChessController {
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
 
-        // POUR CHAQUE DEPLACEMENT ON DOIT CONTRÔLER QUE LE ROI N'EST PAS DIRECTEMENT MIS EN DANGER
-
-
         Piece piece = board[fromX][fromY];
 
         // Check piece not moving
         if (piece == null || fromX == toX && fromY == toY) {
             return false;
         }
+
         // Check correct colour is playing
         if (whiteToPlay == 1 && piece.getColor() == PlayerColor.BLACK || whiteToPlay == -1 && piece.getColor() == PlayerColor.WHITE) {
             return false;
@@ -45,10 +43,17 @@ public class Game implements ChessController {
         // Check if there is a piece on the destination square
         boolean capture = board[toX][toY] != null;
 
+        // Check not capturing comrades
         if (capture && board[toX][toY].getColor() == piece.getColor()) {
             return false;
         }
 
+        // Check the move does not put the king in check
+        if (kingInDanger(fromX,fromY,toX,toY,capture)) {
+            return false;
+        }
+
+        // Check for valid move
         if (piece.validMove(fromX,fromY,toX,toY,board, capture)) {
 
             // Move piece
@@ -57,7 +62,7 @@ public class Game implements ChessController {
             board[fromX][fromY] = null;
             view.removePiece(fromX,fromY);
 
-            //PAWN PROMOTION
+            // Pawn promotion
             if (piece instanceof Pawn p && (toY == 7 || toY == 0)) {
                 pawnPromotion(p,toX,toY);
             }
@@ -139,10 +144,42 @@ public class Game implements ChessController {
         };
 
         Piece userChoice;
-        while ((userChoice = view.askUser("Promotion", "Choisir une pièce pour la promotion", choices)) == null) {
-        }
+        while ((userChoice = view.askUser("Promotion", "Choisir une pièce pour la promotion", choices)) == null) {}
 
         board[toX][toY] = userChoice;
         view.putPiece(userChoice.getType(),color,toX,toY);
+    }
+
+    private boolean kingInDanger(int fromX, int fromY, int toX, int toY, boolean capture) {
+        // To check whether the king is in danger, we simulate the move being made
+        Piece piece = board[fromX][fromY];
+        Piece victim = null;
+        if (capture) {
+            victim = board[toX][toY];
+        }
+        board[toX][toY] = piece;
+        board[fromX][fromY] = null;
+
+        boolean danger = false;
+
+        // Find the king
+        for (int i = 0; i < board.length; ++i) {
+            for (int j = 0; j < board.length; ++j) {
+                if (board[i][j] != null && board[i][j] instanceof King && board[i][j].getColor() == piece.getColor()) {
+                    // Check that the King is not in check
+                    for (int k = 0; k < board.length; ++k) {
+                        for (int l = 0; l < board.length; ++l) {
+                            if (board[k][l] != null && board[k][l].getColor() != piece.getColor() && board[k][l].validMove(k,l,i,j,board,capture)) {
+                                // Put back the pieces
+                                board[toX][toY] = victim;
+                                board[fromX][fromY] = piece;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
