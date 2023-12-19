@@ -16,4 +16,8 @@ public class Queen extends Piece {
         Rook rook = new Rook(color,board);
         return bishop.validMove(fromX,fromY,toX,toY,board,capture) || rook.validMove(fromX,fromY,toX,toY,board,capture);
     }
+
+    public String textValue() {
+        return "Queen";
+    }
 }

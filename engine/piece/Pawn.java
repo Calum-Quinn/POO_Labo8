@@ -8,12 +8,10 @@ public class Pawn extends SpecialPiece {
         super(color, PieceType.PAWN, board);
     }
 
-    public void promote(PieceType type) {
-        this.type = type;
-    }
-
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
+
+        boolean valid = false;
 
         // Factorisation between white and black pawns
         int whiteBlack = 1;
@@ -25,24 +23,39 @@ public class Pawn extends SpecialPiece {
         if (!capture && fromX == toX) {
             // 1 square
             if (fromY == toY - whiteBlack) {
-                return true;
+//                return true;
+                valid = true;
             }
             // 2 square, check that the pawn is on the correct row and no piece in front
-            else return fromY == toY - 2*whiteBlack && board[fromX][toY - whiteBlack] == null && (whiteBlack == 1 && toY == 3 || whiteBlack == - 1 && toY == 4);
+            else {
+                valid = fromY == toY - 2*whiteBlack && board[fromX][toY - whiteBlack] == null && (whiteBlack == 1 && toY == 3 || whiteBlack == - 1 && toY == 4);
+            }
         }
         // Capture
         else if (capture && Math.abs(fromX - toX) == 1 && fromY == toY - whiteBlack) {
-            return true;
+            valid = true;
         }
         // En passant
         else {
             // Check correct move format
-            if (!(Math.abs(toX - fromX) == 1 && fromY == toY - whiteBlack)) {
+            if (Math.abs(toX - fromX) == 1 && fromY == toY - whiteBlack) {
                 Piece otherPawn = board[toX][fromY];
                 // Check if nothing on destination square and neighboring piece is a pawn
-                return !capture && otherPawn instanceof Pawn && ((Pawn) otherPawn).hasMoved();
+
+                // IL FAUT CONTROLER QUE L'AUTRE PION A BOUGÉ LE COUP *PRÉCÉDENT*
+
+                if (!capture && otherPawn instanceof Pawn && ((Pawn) otherPawn).hasMoved()) {
+                    valid = true;
+                    board[toX][fromY] = null;
+                }
             }
-            return false;
         }
+        if (valid) {
+            super.moved = true;
+        }
+        return valid;
+    }
+    public String textValue() {
+        return "Pawn";
     }
 }

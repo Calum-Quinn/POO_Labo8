@@ -1,9 +1,10 @@
 package engine.piece;
 
+import chess.ChessView;
 import chess.PieceType;
 import chess.PlayerColor;
 
-public abstract class Piece {
+public abstract class Piece implements ChessView.UserChoice {
     protected PlayerColor color;
 
     protected PieceType type;

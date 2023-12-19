@@ -35,4 +35,7 @@ public class Rook extends SpecialPiece {
         }
         return false;
     }
+    public String textValue() {
+        return "Rook";
+    }
 }

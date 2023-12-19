@@ -24,4 +24,9 @@ public class Bishop extends Piece {
         }
         return false;
     }
+
+    @Override
+    public String textValue() {
+        return "Bishop";
+    }
 }
