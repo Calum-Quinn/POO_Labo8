@@ -2,14 +2,15 @@ package engine.piece;
 
 import chess.PieceType;
 import chess.PlayerColor;
+import engine.Board;
 
 public class Rook extends SpecialPiece {
-    public Rook(PlayerColor color, Piece[][] board) {
+    public Rook(PlayerColor color, Board board) {
         super(color, PieceType.ROOK, board);
     }
 
     @Override
-    public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
+    public boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture) {
         // Straight/normal
         int xDiff = toX - fromX;
         int yDiff = toY - fromY;
@@ -18,7 +19,7 @@ public class Rook extends SpecialPiece {
             int ySign = yDiff >= 0 ? yDiff == 0 ? 0 : 1 : -1;
             // Check no pieces in between
             for (int i = 1; i < Math.abs(Math.max(xDiff,yDiff)); ++i) {
-                if (board[fromX + i * xSign][fromY + i * ySign] != null) {
+                if (board.getPieces()[fromX + i * xSign][fromY + i * ySign] != null) {
                     return false;
                 }
             }
@@ -35,6 +36,12 @@ public class Rook extends SpecialPiece {
         }
         return false;
     }
+
+    @Override
+    public boolean move(int fromX, int fromY, int toX, int toY) {
+        return false;
+    }
+
     public String textValue() {
         return "Rook";
     }

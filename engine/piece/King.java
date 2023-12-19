@@ -2,14 +2,15 @@ package engine.piece;
 
 import chess.PieceType;
 import chess.PlayerColor;
+import engine.Board;
 
 public class King extends SpecialPiece {
-    public King(PlayerColor color, Piece[][] board) {
+    public King(PlayerColor color, Board board) {
         super(color, PieceType.KING, board);
     }
 
     @Override
-    public boolean validMove(int fromX, int fromY, int toX, int toY, Piece[][] board, boolean capture) {
+    public boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture) {
 
         int xDiff = Math.abs(fromX - toX);
         int yDiff = Math.abs(fromY - toY);
@@ -21,11 +22,30 @@ public class King extends SpecialPiece {
         }
 
         // Castle
-        Piece rook = board[xCorner][color == PlayerColor.WHITE ? 0 : 7];
+        Piece rook = board.getPieces()[xCorner][fromY];
+        // Check nor the king nor the rook have moved before
         if (!this.hasMoved() && xDiff == 2 && rook instanceof Rook && !((Rook) rook).hasMoved()) {
+            // Check there are no pieces in between the king and the rook
+            for (int i = 1; i < Math.abs(fromX - xCorner); ++i) {
+                if (board.getPieces()[xCorner + (xCorner == 0 ? i : -i)][fromY] != null) {
+                    return false;
+                }
+            }
+            // Check the king does not move over any spaces in which he would be checked
+
+
             super.moved = true;
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean move(int fromX, int fromY, int toX, int toY) {
+        return false;
+    }
+
+    private boolean castle(int toX, int toY) {
         return false;
     }
 
