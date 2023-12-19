@@ -28,6 +28,8 @@ public class Game implements ChessController {
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
 
+        // POUR CHAQUE DEPLACEMENT ON DOIT CONTRÔLER QUE LE ROI N'EST PAS DIRECTEMENT MIS EN DANGER
+
         Piece piece = board[fromX][fromY];
 
         // Check piece not moving
@@ -38,11 +40,13 @@ public class Game implements ChessController {
         if (whiteToPlay == 1 && piece.getColor() == PlayerColor.BLACK || whiteToPlay == -1 && piece.getColor() == PlayerColor.WHITE) {
             return false;
         }
-        // Switch which colour is playing
-        whiteToPlay *= -1;
 
         // Check if there is a piece on the destination square
         boolean capture = board[toX][toY] != null;
+
+        if (capture && board[toX][toY].getColor() == piece.getColor()) {
+            return false;
+        }
 
         if (piece.validMove(fromX,fromY,toX,toY,board, capture)) {
 
@@ -70,6 +74,9 @@ public class Game implements ChessController {
                board[toX][toY] = userChoice;
                view.putPiece(userChoice.getType(),color,toX,toY);
            }
+
+            // Switch which colour is playing
+            whiteToPlay *= -1;
 
             return true;
         }
@@ -130,5 +137,7 @@ public class Game implements ChessController {
         board[4][7] = new King(PlayerColor.BLACK,board);
         view.putPiece(PieceType.KING, PlayerColor.WHITE, 4, 0);
         view.putPiece(PieceType.KING, PlayerColor.BLACK, 4, 7);
+
+        whiteToPlay = 1;
     }
 }
