@@ -30,6 +30,7 @@ public class Game implements ChessController {
 
         // POUR CHAQUE DEPLACEMENT ON DOIT CONTRÔLER QUE LE ROI N'EST PAS DIRECTEMENT MIS EN DANGER
 
+
         Piece piece = board[fromX][fromY];
 
         // Check piece not moving
@@ -56,24 +57,10 @@ public class Game implements ChessController {
             board[fromX][fromY] = null;
             view.removePiece(fromX,fromY);
 
-           // Check for pawn promotion
-           if (piece instanceof Pawn && toY == 7 || toY == 0) {
-
-               PlayerColor color = piece.getColor();
-               Piece[] choices = {
-                       new Queen(color,board),
-                       new Knight(color,board),
-                       new Rook(color,board),
-                       new Bishop(color,board)
-               };
-
-               Piece userChoice;
-               while ((userChoice = view.askUser("Promotion", "Choisir une pièce pour la promotion", choices)) == null) {
-               }
-
-               board[toX][toY] = userChoice;
-               view.putPiece(userChoice.getType(),color,toX,toY);
-           }
+            //PAWN PROMOTION
+            if (piece instanceof Pawn p && (toY == 7 || toY == 0)) {
+                pawnPromotion(p,toX,toY);
+            }
 
             // Switch which colour is playing
             whiteToPlay *= -1;
@@ -139,5 +126,23 @@ public class Game implements ChessController {
         view.putPiece(PieceType.KING, PlayerColor.BLACK, 4, 7);
 
         whiteToPlay = 1;
+    }
+
+    private void pawnPromotion(Pawn pawn, int toX, int toY) {
+        // Check for pawn promotion
+        PlayerColor color = pawn.getColor();
+        Piece[] choices = {
+                new Queen(color,board),
+                new Knight(color,board),
+                new Rook(color,board),
+                new Bishop(color,board)
+        };
+
+        Piece userChoice;
+        while ((userChoice = view.askUser("Promotion", "Choisir une pièce pour la promotion", choices)) == null) {
+        }
+
+        board[toX][toY] = userChoice;
+        view.putPiece(userChoice.getType(),color,toX,toY);
     }
 }
