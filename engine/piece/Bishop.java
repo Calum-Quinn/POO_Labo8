@@ -27,11 +27,6 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public boolean move(int fromX, int fromY, int toX, int toY) {
-        return false;
-    }
-
-    @Override
     public String textValue() {
         return "Bishop";
     }

@@ -23,22 +23,9 @@ public class Rook extends SpecialPiece {
                     return false;
                 }
             }
-
-            // COMMENT L'ORDI SAIT SI ON CASTLE???
-
-//            // Castle
-//            // Checks:
-//            // This piece has not moved
-//            // The piece is either moving 2 spaces left or 3 right
-//            // The king is in its starting position and has not moved (one check for each colour)
-//            return !this.hasMoved() && (xDiff == -2 || xDiff == 3) && (color == PlayerColor.WHITE ? (board[4][0] instanceof King && !((King) board[4][0]).hasMoved()) : (board[4][7] instanceof King && !((King) board[4][7]).hasMoved()));
+            super.moved = true;
             return true;
         }
-        return false;
-    }
-
-    @Override
-    public boolean move(int fromX, int fromY, int toX, int toY) {
         return false;
     }
 

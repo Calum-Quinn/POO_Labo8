@@ -21,10 +21,10 @@ public class Game implements ChessController {
         this.view.startView();
         board.setPlayerTurn(PlayerColor.WHITE);
 
-        // Events listeners
+        // Event listeners
         board.setAddListener((piece, x, y) -> view.putPiece(piece.getType(), piece.getColor(), x, y));
 
-        board.setCaptureListener((piece, x, y) -> view.removePiece(x, y));
+        board.setCaptureListener(view::removePiece);
 
         board.setPromotionListener((piece, x, y) -> {
             PlayerColor color = piece.getColor();
@@ -44,6 +44,17 @@ public class Game implements ChessController {
             board.removePiece(x,y);
             board.setPiece(userChoice, x, y);
         });
+
+        board.setCastleListener(((kingX,rookX,y) -> {
+            King king = (King) board.getPieces()[kingX][y];
+            Rook rook = (Rook) board.getPieces()[rookX][y];
+            int kingTo = kingX - rookX > 0 ? 2 : 6;
+            int rookTo = kingTo == 2 ? 3 : 5;
+            board.removePiece(rookX,y);
+            board.removePiece(kingX,y);
+            board.setPiece(king,kingTo,y);
+            board.setPiece(rook,rookTo,y);
+        }));
     }
 
     @Override

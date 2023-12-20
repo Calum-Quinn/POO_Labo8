@@ -27,6 +27,4 @@ public abstract class Piece implements ChessView.UserChoice {
     }
 
     public abstract boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture);
-
-    public abstract boolean move(int fromX, int fromY, int toX, int toY);
 }

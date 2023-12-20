@@ -5,14 +5,26 @@ import engine.piece.*;
 
 public class Board {
 
-    public interface PieceListener {
+    public interface AddListener {
         void action(Piece piece, int x, int y);
     }
 
-    private PieceListener onAdd;
-    private PieceListener onCapture;
+    public interface CaptureListener {
+        void action(int x, int y);
+    }
 
-    private PieceListener onPromotion;
+    public interface PromoteListener {
+        void action(Piece piece, int x, int y);
+    }
+
+    public interface CastleListener {
+        void action(int kingX, int rookX, int y);
+    }
+
+    private AddListener onAdd;
+    private CaptureListener onCapture;
+    private PromoteListener onPromotion;
+    private CastleListener onCastle;
 
     private final Piece[][] pieces;
 
@@ -29,16 +41,20 @@ public class Board {
         this.playerTurn = playerTurn;
     }
 
-    public void setAddListener(PieceListener onAdd) {
+    public void setAddListener(AddListener onAdd) {
         this.onAdd = onAdd;
     }
 
-    public void setCaptureListener(PieceListener onCapture) {
+    public void setCaptureListener(CaptureListener onCapture) {
         this.onCapture = onCapture;
     }
 
-    public void setPromotionListener(PieceListener onPromotion) {
+    public void setPromotionListener(PromoteListener onPromotion) {
         this.onPromotion = onPromotion;
+    }
+
+    public void setCastleListener(CastleListener onCastle) {
+        this.onCastle = onCastle;
     }
 
     public void setPiece(Piece piece, int x, int y) {
@@ -50,7 +66,7 @@ public class Board {
 
     public void removePiece(int x, int y) {
         if (onCapture != null) {
-            onCapture.action(pieces[x][y],x,y);
+            onCapture.action(x,y);
         }
     }
 
@@ -83,6 +99,13 @@ public class Board {
 
         // Check for valid move
         if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
+
+            // Check if castle
+            if (piece instanceof King && Math.abs(fromX - toX) == 2) {
+                if (onCastle != null) {
+                    onCastle.action(fromX,fromX - toX > 0 ? 0 : 7,fromY);
+                }
+            }
 
             // Move piece
             setPiece(piece,toX,toY);

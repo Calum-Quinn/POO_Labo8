@@ -56,11 +56,6 @@ public class Pawn extends SpecialPiece {
         return valid;
     }
 
-    @Override
-    public boolean move(int fromX, int fromY, int toX, int toY) {
-        return false;
-    }
-
     public String textValue() {
         return "Pawn";
     }

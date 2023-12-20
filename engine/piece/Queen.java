@@ -18,11 +18,6 @@ public class Queen extends Piece {
         return bishop.validMove(fromX,fromY,toX,toY,board,capture) || rook.validMove(fromX,fromY,toX,toY,board,capture);
     }
 
-    @Override
-    public boolean move(int fromX, int fromY, int toX, int toY) {
-        return false;
-    }
-
     public String textValue() {
         return "Queen";
     }
