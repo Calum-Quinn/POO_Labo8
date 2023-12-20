@@ -11,6 +11,7 @@
 
 ## Autres
 - [x] Promotion de pion
+- [ ] Fin de partie (soit en échec et mat soit quand le roi est capturé)
 
 ## Bonus
 - [ ] Détection echec et mat
