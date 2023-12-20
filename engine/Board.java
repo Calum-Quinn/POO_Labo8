@@ -14,7 +14,7 @@ public class Board {
 
     private PieceListener onPromotion;
 
-    private Piece[][] pieces;
+    private final Piece[][] pieces;
 
     private PlayerColor playerTurn;
     public Board() {
@@ -107,31 +107,54 @@ public class Board {
         }
     }
 
+    public  int[] findKing(PlayerColor color) {
+        int[] position = {-1,-1};
+        for (int i = 0; i < pieces.length; ++i) {
+            for (int j = 0; j < pieces.length; ++j) {
+                if (pieces[i][j] != null && pieces[i][j] instanceof King && pieces[i][j].getColor() == color) {
+                    position[0] = i;
+                    position[1] = j;
+                    return position;
+                }
+            }
+        }
+        return position;
+    }
+
     public boolean kingInDanger(int fromX, int fromY, int toX, int toY, boolean capture) {
         // To check whether the king is in danger, we simulate the move being made
         Piece piece = pieces[fromX][fromY];
         Piece victim = null;
-        if (capture) {
-            victim = pieces[toX][toY];
+        // Check piece not moving to same square
+        if (!(fromX == toX && fromY == toY)) {
+            if (capture) {
+                victim = pieces[toX][toY];
+            }
+            pieces[toX][toY] = piece;
+            pieces[fromX][fromY] = null;
         }
-        pieces[toX][toY] = piece;
-        pieces[fromX][fromY] = null;
 
         // Find the king
+        int[] kingPos = findKing(piece.getColor());
+        if (kingPos[0] != -1 && kingPos[1] != -1) {
+            // Check that the King is not in check
+            boolean check = isInCheck(piece.getColor());
+            if (check) {
+                // Put back the pieces
+                pieces[toX][toY] = victim;
+                pieces[fromX][fromY] = piece;
+            }
+            return check;
+        }
+        return false;
+    }
+
+    public boolean isInCheck(PlayerColor color) {
+        int[] kingPos = findKing(color);
         for (int i = 0; i < pieces.length; ++i) {
             for (int j = 0; j < pieces.length; ++j) {
-                if (pieces[i][j] != null && pieces[i][j] instanceof King && pieces[i][j].getColor() == piece.getColor()) {
-                    // Check that the King is not in check
-                    for (int k = 0; k < pieces.length; ++k) {
-                        for (int l = 0; l < pieces.length; ++l) {
-                            if (pieces[k][l] != null && pieces[k][l].getColor() != piece.getColor() && pieces[k][l].validMove(k,l,i,j,this,capture)) {
-                                // Put back the pieces
-                                pieces[toX][toY] = victim;
-                                pieces[fromX][fromY] = piece;
-                                return true;
-                            }
-                        }
-                    }
+                if (pieces[i][j] != null && pieces[i][j].getColor() != color && pieces[i][j].validMove(i,j,kingPos[0],kingPos[1],this,true)) {
+                    return true;
                 }
             }
         }

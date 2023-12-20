@@ -9,7 +9,7 @@ import engine.piece.*;
 public class Game implements ChessController {
     private static final int SIZE = 8;
     private ChessView view;
-    private Board board;
+    private final Board board;
 
     public Game() {
         board = new Board();
