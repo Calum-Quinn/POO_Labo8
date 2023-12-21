@@ -13,10 +13,6 @@ public class Pawn extends SpecialPiece {
         lastMoveDist = 0;
     }
 
-    public int getLastMoveDist() {
-        return lastMoveDist;
-    }
-
     public void setLastMoveDist(int dist) {
         lastMoveDist = dist;
     }
