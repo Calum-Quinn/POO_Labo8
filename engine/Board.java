@@ -28,13 +28,20 @@ public class Board {
 
     private final Piece[][] pieces;
 
+    private Piece lastMoved;
+
     private PlayerColor playerTurn;
     public Board() {
         pieces = new Piece[8][8];
+        lastMoved = null;
     }
 
     public Piece[][] getPieces() {
         return pieces;
+    }
+
+    public Piece getLastMoved() {
+        return lastMoved;
     }
 
     public void setPlayerTurn(PlayerColor playerTurn) {
@@ -111,13 +118,25 @@ public class Board {
             setPiece(piece,toX,toY);
             removePiece(fromX,fromY);
 
-            // Pawn promotion
-            if (piece instanceof Pawn p && (toY == 7 || toY == 0)) {
-                pawnPromotion(p,toX,toY);
+            // Pawn move
+            if (piece instanceof Pawn p) {
+                ((Pawn) piece).setLastMoveDist(Math.abs(fromY - toY));
+
+                // Promotion
+                if (toY == 7 || toY == 0) {
+                    pawnPromotion(p,toX,toY);
+                }
+
+                // If valid move and diagonal not capture -> en passant
+                if (!capture && fromX != toX) {
+                    removePiece(toX,toY - (piece.getColor() == PlayerColor.WHITE ? 1 : -1));
+                }
             }
 
             // Switch which colour is playing
             playerTurn = playerTurn == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
+
+            lastMoved = piece;
 
             return true;
         }

@@ -5,8 +5,20 @@ import chess.PlayerColor;
 import engine.Board;
 
 public class Pawn extends SpecialPiece {
+
+    private int lastMoveDist;
+
     public Pawn(PlayerColor color, Board board) {
         super(color, PieceType.PAWN, board);
+        lastMoveDist = 0;
+    }
+
+    public int getLastMoveDist() {
+        return lastMoveDist;
+    }
+
+    public void setLastMoveDist(int dist) {
+        lastMoveDist = dist;
     }
 
     @Override
@@ -40,13 +52,9 @@ public class Pawn extends SpecialPiece {
             // Check correct move format
             if (Math.abs(toX - fromX) == 1 && fromY == toY - whiteBlack) {
                 Piece otherPawn = board.getPieces()[toX][fromY];
-                // Check if nothing on destination square and neighboring piece is a pawn
-
-                // IL FAUT CONTROLER QUE L'AUTRE PION A BOUGÉ LE COUP *PRÉCÉDENT*
-
-                if (!capture && otherPawn instanceof Pawn && ((Pawn) otherPawn).hasMoved()) {
+                // Check if nothing on destination square and neighboring piece is a pawn which just moved 2 squares
+                if (!capture && otherPawn instanceof Pawn && ((Pawn) otherPawn).lastMoveDist == 2 && board.getLastMoved() == otherPawn) {
                     valid = true;
-                    board.getPieces()[toX][fromY] = null;
                 }
             }
         }
