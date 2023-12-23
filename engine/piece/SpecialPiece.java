@@ -13,10 +13,18 @@ public abstract class SpecialPiece extends Piece{
         moved = false;
     }
 
+    /**
+     * Check's whether a piece has been moved before.
+     *
+     * @return  Piece has not been moved.
+     */
     public boolean hasNotMoved() {
         return !moved;
     }
 
+    /**
+     * Informs that the piece has been moved.
+     */
     public void moved() {
         moved = true;
     }

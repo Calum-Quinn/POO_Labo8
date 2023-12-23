@@ -68,6 +68,13 @@ public class Board {
         this.onCastle = onCastle;
     }
 
+    /**
+     * Set a position for a piece.
+     *
+     * @param piece Piece to be set.
+     * @param x     x coordinate.
+     * @param y     y coordinate.
+     */
     public void setPiece(Piece piece, int x, int y) {
         pieces[x][y] = piece;
 
@@ -75,6 +82,12 @@ public class Board {
             onAdd.action(piece, x, y);
     }
 
+    /**
+     * Remove a piece from a certain position.
+     *
+     * @param x     x coordinate.
+     * @param y     y coordinate.
+     */
     public void removePiece(int x, int y) {
         pieces[x][y] = null;
 
@@ -83,6 +96,15 @@ public class Board {
         }
     }
 
+    /**
+     * Check's whether the piece in the starting square can legally move to the destination square.
+     *
+     * @param fromX     Starting x coordinate.
+     * @param fromY     Starting y coordinate.
+     * @param toX       Desired x coordinate.
+     * @param toY       Desired y coordinate.
+     * @return          Valid move or not.
+     */
     public boolean canMove(int fromX, int fromY, int toX, int toY) {
         Piece piece = pieces[fromX][fromY];
 
@@ -112,6 +134,14 @@ public class Board {
         return false;
     }
 
+    /**
+     * Moves the piece from the starting position to the desired square.
+     *
+     * @param fromX     Starting x coordinate.
+     * @param fromY     Starting y coordinate.
+     * @param toX       Desired x coordinate.
+     * @param toY       Desired y coordinate.
+     */
     public void move(int fromX, int fromY, int toX, int toY) {
 
         Piece piece = pieces[fromX][fromY];
@@ -159,9 +189,9 @@ public class Board {
     /**
      * Promotes a pawn to a piece chosen by the user.
      *
-     * @param pawn  The pawn to promote.
-     * @param toX   The x coordinate of the pawn.
-     * @param toY   The y coordinate of the pawn.
+     * @param pawn  Pawn to promote.
+     * @param toX   x coordinate of the pawn.
+     * @param toY   y coordinate of the pawn.
      */
     private void promotePawn(Pawn pawn, int toX, int toY) {
         if (onPromotion != null) {
@@ -169,6 +199,12 @@ public class Board {
         }
     }
 
+    /**
+     * Find the current player's King's position
+     *
+     * @param color Color of the current player.
+     * @return      x and y coordinates for the king.
+     */
     private  int[] findKing(PlayerColor color) {
         int[] position = {-1,-1};
         for (int i = 0; i < pieces.length; ++i) {
@@ -183,6 +219,16 @@ public class Board {
         return position;
     }
 
+    /**
+     * Check's whether the king would be put in check with a specific move.
+     *
+     * @param fromX     Starting x coordinate.
+     * @param fromY     Starting y coordinate.
+     * @param toX       Desired x coordinate.
+     * @param toY       Desired y coordinate.
+     * @param capture   Piece on destination square.
+     * @return          King would be in check.
+     */
     public boolean kingSafe(int fromX, int fromY, int toX, int toY, boolean capture) {
         // To check whether the king is in danger, we simulate the move being made
         Piece piece = pieces[fromX][fromY];
@@ -209,6 +255,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * Check's whether the king is currently in check.
+     *
+     * @param color Color of the king to check.
+     * @return      King in check.
+     */
     public boolean isInCheck(PlayerColor color) {
         int[] kingPos = findKing(color);
         for (int i = 0; i < pieces.length; ++i) {
@@ -221,6 +273,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Checks whether check mate has been reached.
+     *
+     * @return  Check mate.
+     */
     public boolean isCheckMate() {
         for (int i = 0; i < pieces.length; ++i) {
             for (int j = 0; j < pieces.length; ++j) {
