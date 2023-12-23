@@ -28,6 +28,7 @@ public class Rook extends SpecialPiece {
         return false;
     }
 
+    @Override
     public String textValue() {
         return "Rook";
     }

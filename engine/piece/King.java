@@ -41,6 +41,7 @@ public class King extends SpecialPiece {
         return false;
     }
 
+    @Override
     public String textValue() {
         return "King";
     }

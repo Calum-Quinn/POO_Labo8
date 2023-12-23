@@ -14,6 +14,7 @@ public class Knight extends Piece {
         return Math.abs(fromX - toX) == 1 && Math.abs(fromY - toY) == 2 || Math.abs(fromX - toX) == 2 && Math.abs(fromY - toY) == 1;
     }
 
+    @Override
     public String textValue() {
         return "Knight";
     }

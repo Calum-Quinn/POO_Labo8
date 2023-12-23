@@ -18,6 +18,7 @@ public class Queen extends Piece {
         return bishop.validMove(fromX,fromY,toX,toY,board,capture) || rook.validMove(fromX,fromY,toX,toY,board,capture);
     }
 
+    @Override
     public String textValue() {
         return "Queen";
     }

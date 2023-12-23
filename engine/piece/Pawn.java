@@ -53,6 +53,7 @@ public class Pawn extends SpecialPiece {
         return false;
     }
 
+    @Override
     public String textValue() {
         return "Pawn";
     }

@@ -169,7 +169,7 @@ public class Board {
         }
     }
 
-    public  int[] findKing(PlayerColor color) {
+    private  int[] findKing(PlayerColor color) {
         int[] position = {-1,-1};
         for (int i = 0; i < pieces.length; ++i) {
             for (int j = 0; j < pieces.length; ++j) {
