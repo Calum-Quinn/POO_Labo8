@@ -36,7 +36,7 @@ public class King extends SpecialPiece {
                 }
             }
             // Check the king does not move over any spaces in which he would be checked
-            return !board.kingInDanger(fromX, fromY, fromX - (xCorner == 0 ? 1 : -1), fromY, false);
+            return board.kingSafe(fromX, fromY, fromX - (xCorner == 0 ? 1 : -1), fromY, false);
         }
         return false;
     }

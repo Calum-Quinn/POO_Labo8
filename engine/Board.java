@@ -109,7 +109,7 @@ public class Board {
         if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
 
             // Check the move does not put the king in check
-            return !kingInDanger(fromX, fromY, toX, toY, capture);
+            return kingSafe(fromX, fromY, toX, toY, capture);
         }
         return false;
     }
@@ -185,7 +185,7 @@ public class Board {
         return position;
     }
 
-    public boolean kingInDanger(int fromX, int fromY, int toX, int toY, boolean capture) {
+    public boolean kingSafe(int fromX, int fromY, int toX, int toY, boolean capture) {
         // To check whether the king is in danger, we simulate the move being made
         Piece piece = pieces[fromX][fromY];
         Piece victim = null;
@@ -206,9 +206,9 @@ public class Board {
             // Put back the pieces
             pieces[toX][toY] = victim;
             pieces[fromX][fromY] = piece;
-            return check;
+            return !check;
         }
-        return false;
+        return true;
     }
 
     public boolean isInCheck(PlayerColor color) {
