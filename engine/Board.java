@@ -190,11 +190,6 @@ public class Board {
         if (kingPos[0] != -1 && kingPos[1] != -1) {
             // Check that the King is not in check
             boolean check = isInCheck(piece.getColor());
-//            if (check) {
-//                // Put back the pieces
-//                pieces[toX][toY] = victim;
-//                pieces[fromX][fromY] = piece;
-//            }
             // Put back the pieces
             pieces[toX][toY] = victim;
             pieces[fromX][fromY] = piece;
