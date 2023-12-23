@@ -62,9 +62,9 @@ public class Game implements ChessController {
 
         boolean move = board.move(fromX,fromY,toX,toY);
 
-        if (board.isInCheck(board.getPlayerTurn())) {
-            view.displayMessage("Check!");
-        }
+        String message = (board.isInCheck(board.getPlayerTurn()) ? "Check! " : "") + board.getPlayerTurn() + " to play";
+
+        view.displayMessage(message);
 
         return move;
     }
