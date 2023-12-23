@@ -7,10 +7,11 @@
 
 ## Check
 - [x] Contrôle de ne pas mettre SON roi en danger
-- [ ] Contrôle de la mise en échec de l'autre roi
+- [x] Contrôle de ne pas faire de déplacement qui laisse son roi en échec
 
 ## Autres
 - [x] Promotion de pion
+- [ ] Fin de partie (soit en échec et mat soit quand le roi est capturé)
 
 ## Bonus
 - [ ] Détection echec et mat
