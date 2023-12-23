@@ -64,6 +64,10 @@ public class Game implements ChessController {
 
         String message = (board.isInCheck(board.getPlayerTurn()) ? "Check! " : "") + board.getPlayerTurn() + " to play";
 
+        if (board.getCheckMate()) {
+            message = "Check mate!";
+        }
+
         view.displayMessage(message);
 
         return move;

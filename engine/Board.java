@@ -30,10 +30,13 @@ public class Board {
 
     private Piece lastMoved;
 
+    private boolean checkMate;
+
     private PlayerColor playerTurn;
     public Board() {
         pieces = new Piece[8][8];
         lastMoved = null;
+        checkMate = false;
     }
 
     public Piece[][] getPieces() {
@@ -45,6 +48,8 @@ public class Board {
     public Piece getLastMoved() {
         return lastMoved;
     }
+
+    public boolean getCheckMate() {return checkMate;}
 
     public PlayerColor getPlayerTurn() {return playerTurn;}
 
@@ -145,6 +150,10 @@ public class Board {
 
             lastMoved = piece;
 
+            if (isCheckMate()) {
+                checkMate = true;
+            }
+
             return true;
         }
         return false;
@@ -213,5 +222,22 @@ public class Board {
             }
         }
         return false;
+    }
+
+    public boolean isCheckMate() {
+        for (int i = 0; i < pieces.length; ++i) {
+            for (int j = 0; j < pieces.length; ++j) {
+                if (pieces[i][j] != null && pieces[i][j].getColor() == playerTurn) {
+                    for (int k = 0; k < pieces.length; ++k) {
+                        for (int l = 0; l < pieces.length; ++l) {
+                            if (pieces[i][j].validMove(i,j,k,l,this,pieces[k][l] != null) && !kingInDanger(i,j,k,l,pieces[k][l] != null)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
