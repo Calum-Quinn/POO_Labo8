@@ -99,13 +99,13 @@ public class Board {
             return false;
         }
 
-        // Check the move does not put the king in check
-        if (kingInDanger(fromX,fromY,toX,toY,capture)) {
-            return false;
-        }
-
         // Check for valid move
         if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
+
+            // Check the move does not put the king in check
+            if (kingInDanger(fromX,fromY,toX,toY,capture)) {
+                return false;
+            }
 
             // Check if castle
             if (piece instanceof King && Math.abs(fromX - toX) == 2) {
@@ -124,7 +124,7 @@ public class Board {
 
                 // Promotion
                 if (toY == 7 || toY == 0) {
-                    pawnPromotion(p,toX,toY);
+                    promotePawn(p,toX,toY);
                 }
 
                 // If valid move and diagonal not capture -> en passant
@@ -143,7 +143,14 @@ public class Board {
         return false;
     }
 
-    private void pawnPromotion(Pawn pawn, int toX, int toY) {
+    /**
+     * Promotes a pawn to a piece chosen by the user.
+     *
+     * @param pawn  The pawn to promote.
+     * @param toX   The x coordinate of the pawn.
+     * @param toY   The y coordinate of the pawn.
+     */
+    private void promotePawn(Pawn pawn, int toX, int toY) {
         if (onPromotion != null) {
             onPromotion.action(pawn,toX,toY);
         }
