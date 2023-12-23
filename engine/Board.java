@@ -100,7 +100,6 @@ public class Board {
         boolean capture = pieces[toX][toY] != null;
 
         // Check not capturing comrades unless castle
-//        if (capture && pieces[toX][toY].getColor() == piece.getColor()) {
         if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King)) {
             return false;
         }

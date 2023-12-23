@@ -72,7 +72,7 @@ public class Game implements ChessController {
         if (board.isCheckMate()) {
             message = "Check mate!";
         }
-
+      
         view.displayMessage(message);
 
         return move;
