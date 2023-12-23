@@ -100,7 +100,7 @@ public class Board {
         boolean capture = pieces[toX][toY] != null;
 
         // Check not capturing comrades unless castle
-        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King && Math.max(Math.abs(toX - fromX),Math.abs(toY - fromY)) == 2 && piece.validMove(fromX,fromY,toX,toY,this,true))) {
+        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King && Math.max(Math.abs(toX - fromX),Math.abs(toY - fromY)) > 1 && piece.validMove(fromX,fromY,toX,toY,this,true))) {
             return false;
         }
 
