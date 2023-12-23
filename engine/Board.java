@@ -30,13 +30,10 @@ public class Board {
 
     private Piece lastMoved;
 
-    private boolean checkMate;
-
     private PlayerColor playerTurn;
     public Board() {
         pieces = new Piece[8][8];
         lastMoved = null;
-        checkMate = false;
     }
 
     public Piece[][] getPieces() {
@@ -48,8 +45,6 @@ public class Board {
     public Piece getLastMoved() {
         return lastMoved;
     }
-
-    public boolean getCheckMate() {return checkMate;}
 
     public PlayerColor getPlayerTurn() {return playerTurn;}
 
@@ -105,13 +100,12 @@ public class Board {
         boolean capture = pieces[toX][toY] != null;
 
         // Check not capturing comrades unless castle
-        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King)) {
+        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King && Math.max(Math.abs(toX - fromX),Math.abs(toY - fromY)) == 2 && piece.validMove(fromX,fromY,toX,toY,this,true))) {
             return false;
         }
 
         // Check for valid move
         if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
-
             // Check the move does not put the king in check
             return kingSafe(fromX, fromY, toX, toY, capture);
         }

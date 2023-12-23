@@ -70,7 +70,7 @@ public class Game implements ChessController {
         String message = (board.isInCheck(board.getPlayerTurn()) ? "Check! " : "") + board.getPlayerTurn() + " to play";
 
         if (board.isCheckMate()) {
-            message = "Check mate!";
+            message = "Check mate! " + (board.getPlayerTurn() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE) + " wins!";
         }
 
         view.displayMessage(message);
