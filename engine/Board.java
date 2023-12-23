@@ -88,8 +88,7 @@ public class Board {
         }
     }
 
-    public boolean move(int fromX, int fromY, int toX, int toY) {
-
+    public boolean canMove(int fromX, int fromY, int toX, int toY) {
         Piece piece = pieces[fromX][fromY];
 
         // Check piece not moving
@@ -105,9 +104,8 @@ public class Board {
         // Check if there is a piece on the destination square
         boolean capture = pieces[toX][toY] != null;
 
-        // Check not capturing comrades (unless castle)
-        if (capture && pieces[toX][toY].getColor() == piece.getColor()) {
-//        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King)) {
+        // Check not capturing comrades unless castle
+        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King)) {
             return false;
         }
 
@@ -115,48 +113,53 @@ public class Board {
         if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
 
             // Check the move does not put the king in check
-            if (kingInDanger(fromX,fromY,toX,toY,capture)) {
-                return false;
-            }
-
-            // Check if castle
-            if (piece instanceof King && Math.abs(fromX - toX) == 2) {
-                if (onCastle != null) {
-                    onCastle.action(fromX,fromX - toX > 0 ? 0 : 7,fromY);
-                }
-            }
-
-            // Move piece
-            setPiece(piece,toX,toY);
-            removePiece(fromX,fromY);
-
-            // Pawn move
-            if (piece instanceof Pawn p) {
-                ((Pawn) piece).setLastMoveDist(Math.abs(fromY - toY));
-
-                // Promotion
-                if (toY == 7 || toY == 0) {
-                    promotePawn(p,toX,toY);
-                }
-
-                // If valid move and diagonal not capture -> en passant
-                if (!capture && fromX != toX) {
-                    removePiece(toX,toY - (piece.getColor() == PlayerColor.WHITE ? 1 : -1));
-                }
-            }
-
-            // Switch which colour is playing
-            playerTurn = playerTurn == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
-
-            lastMoved = piece;
-
-            if (isCheckMate()) {
-                checkMate = true;
-            }
-
-            return true;
+            return kingSafe(fromX, fromY, toX, toY, capture);
         }
         return false;
+    }
+
+    public void move(int fromX, int fromY, int toX, int toY) {
+
+        Piece piece = pieces[fromX][fromY];
+
+        boolean capture = pieces[toX][toY] != null;
+
+        // Check if castle
+        if (piece instanceof King && Math.abs(fromX - toX) > 1) {
+            if (onCastle != null) {
+                onCastle.action(fromX, fromX - toX > 0 ? 0 : 7, fromY);
+                setPiece(piece,fromX - toX > 0 ? 2 : 6,fromY);
+            }
+        }
+        else {
+            setPiece(piece,toX,toY);
+        }
+
+        removePiece(fromX,fromY);
+
+        // Pawn move
+        if (piece instanceof Pawn p) {
+            ((Pawn) piece).setLastMoveDist(Math.abs(fromY - toY));
+
+            // Promotion
+            if (toY == 7 || toY == 0) {
+                promotePawn(p,toX,toY);
+            }
+
+            // If valid move and diagonal not capture -> en passant
+            if (!capture && fromX != toX) {
+                removePiece(toX,toY - (piece.getColor() == PlayerColor.WHITE ? 1 : -1));
+            }
+        }
+
+        if (piece instanceof SpecialPiece) {
+            ((SpecialPiece) piece).moved();
+        }
+
+        // Switch which colour is playing
+        playerTurn = playerTurn == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
+
+        lastMoved = piece;
     }
 
     /**
@@ -186,7 +189,7 @@ public class Board {
         return position;
     }
 
-    public boolean kingInDanger(int fromX, int fromY, int toX, int toY, boolean capture) {
+    public boolean kingSafe(int fromX, int fromY, int toX, int toY, boolean capture) {
         // To check whether the king is in danger, we simulate the move being made
         Piece piece = pieces[fromX][fromY];
         Piece victim = null;
@@ -207,9 +210,9 @@ public class Board {
             // Put back the pieces
             pieces[toX][toY] = victim;
             pieces[fromX][fromY] = piece;
-            return check;
+            return !check;
         }
-        return false;
+        return true;
     }
 
     public boolean isInCheck(PlayerColor color) {
@@ -230,7 +233,7 @@ public class Board {
                 if (pieces[i][j] != null && pieces[i][j].getColor() == playerTurn) {
                     for (int k = 0; k < pieces.length; ++k) {
                         for (int l = 0; l < pieces.length; ++l) {
-                            if (pieces[i][j].validMove(i,j,k,l,this,pieces[k][l] != null) && !kingInDanger(i,j,k,l,pieces[k][l] != null)) {
+                            if (canMove(i,j,k,l)) {
                                 return false;
                             }
                         }

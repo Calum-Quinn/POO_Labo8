@@ -23,13 +23,12 @@ public class King extends SpecialPiece {
 
         // Castle
         Piece rook = board.getPieces()[xCorner][fromY];
-//        return xDiff == 2 && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
-        return (xDiff == 2 || (capture && xCorner == fromX)) && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
+        return (xDiff == 2 || (capture && xCorner == toX)) && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
     }
 
     private boolean canCastle(Piece rook, int xCorner, int fromX, int fromY) {
         // Check nor the king nor the rook have moved before
-        if (!this.hasMoved() && rook instanceof Rook && !((Rook) rook).hasMoved()) {
+        if (this.hasNotMoved() && rook instanceof Rook && ((Rook) rook).hasNotMoved()) {
             // Check there are no pieces in between the king and the rook
             for (int i = 1; i < Math.abs(fromX - xCorner); ++i) {
                 if (board.getPieces()[xCorner + (xCorner == 0 ? i : -i)][fromY] != null) {
@@ -37,12 +36,7 @@ public class King extends SpecialPiece {
                 }
             }
             // Check the king does not move over any spaces in which he would be checked
-            if (board.kingInDanger(fromX,fromY,fromX - (xCorner == 0 ? 1 : -1),fromY,false)) {
-                return false;
-            }
-
-            super.moved = true;
-            return true;
+            return board.kingSafe(fromX, fromY, fromX - (xCorner == 0 ? 1 : -1), fromY, false);
         }
         return false;
     }
