@@ -59,7 +59,14 @@ public class Game implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        return board.move(fromX, fromY, toX, toY);
+
+        boolean move = board.move(fromX,fromY,toX,toY);
+
+        if (board.isInCheck(board.getPlayerTurn())) {
+            view.displayMessage("Check!");
+        }
+
+        return move;
     }
 
     /**
@@ -67,6 +74,9 @@ public class Game implements ChessController {
      */
     @Override
     public void newGame() {
+
+        board.setPieces(new Piece[8][8]);
+
         // Pawns
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.getPieces()[i][1] = new Pawn(PlayerColor.WHITE, board);

@@ -26,7 +26,7 @@ public class Board {
     private PromoteListener onPromotion;
     private CastleListener onCastle;
 
-    private final Piece[][] pieces;
+    private Piece[][] pieces;
 
     private Piece lastMoved;
 
@@ -40,9 +40,13 @@ public class Board {
         return pieces;
     }
 
+    public void setPieces(Piece[][] pieces) {this.pieces = pieces;}
+
     public Piece getLastMoved() {
         return lastMoved;
     }
+
+    public PlayerColor getPlayerTurn() {return playerTurn;}
 
     public void setPlayerTurn(PlayerColor playerTurn) {
         this.playerTurn = playerTurn;
@@ -96,8 +100,9 @@ public class Board {
         // Check if there is a piece on the destination square
         boolean capture = pieces[toX][toY] != null;
 
-        // Check not capturing comrades
+        // Check not capturing comrades (unless castle)
         if (capture && pieces[toX][toY].getColor() == piece.getColor()) {
+//        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King)) {
             return false;
         }
 

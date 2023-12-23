@@ -23,7 +23,8 @@ public class King extends SpecialPiece {
 
         // Castle
         Piece rook = board.getPieces()[xCorner][fromY];
-        return xDiff == 2 && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
+//        return xDiff == 2 && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
+        return (xDiff == 2 || (capture && xCorner == fromX)) && yDiff == 0 && canCastle(rook, xCorner, fromX, fromY);
     }
 
     private boolean canCastle(Piece rook, int xCorner, int fromX, int fromY) {
