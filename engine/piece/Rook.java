@@ -23,7 +23,6 @@ public class Rook extends SpecialPiece {
                     return false;
                 }
             }
-            super.moved = true;
             return true;
         }
         return false;

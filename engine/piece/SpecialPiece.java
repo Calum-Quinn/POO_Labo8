@@ -13,7 +13,11 @@ public abstract class SpecialPiece extends Piece{
         moved = false;
     }
 
-    public boolean hasMoved() {
-        return moved;
+    public boolean hasNotMoved() {
+        return !moved;
+    }
+
+    public void moved() {
+        moved = true;
     }
 }

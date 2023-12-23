@@ -60,10 +60,19 @@ public class Game implements ChessController {
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
 
-        boolean move = board.move(fromX,fromY,toX,toY);
+        boolean move = false;
+
+        if (board.canMove(fromX, fromY, toX, toY)) {
+            board.move(fromX, fromY, toX, toY);
+            move = true;
+        }
 
         String message = (board.isInCheck(board.getPlayerTurn()) ? "Check! " : "") + board.getPlayerTurn() + " to play";
 
+        if (board.isCheckMate()) {
+            message = "Check mate!";
+        }
+      
         view.displayMessage(message);
 
         return move;
