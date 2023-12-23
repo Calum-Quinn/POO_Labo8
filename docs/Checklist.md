@@ -3,7 +3,7 @@
 ## Déplacements
 - [x] Déplacements standards pour chaque pièce
 - [x] En Passant
-- [ ] Castle
+- [x] Castle
 
 ## Check
 - [x] Contrôle de ne pas mettre SON roi en danger
