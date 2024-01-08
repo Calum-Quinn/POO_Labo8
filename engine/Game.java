@@ -67,10 +67,19 @@ public class Game implements ChessController {
             move = true;
         }
 
-        String message = (board.isInCheck(board.getPlayerTurn()) ? "Check! " : "") + board.getPlayerTurn() + " to play";
+        String message = "";
+        boolean checkMate = false;
 
-        if (board.isCheckMate()) {
-            message = "Check mate! " + (board.getPlayerTurn() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE) + " wins!";
+        if (board.isInCheck(board.getPlayerTurn())) {
+            message = "Check! ";
+            if (board.isCheckMate()) {
+                message = "Checkmate! " + (board.getPlayerTurn() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE) + " wins!";
+                checkMate = true;
+            }
+        }
+
+        if (!checkMate) {
+            message += board.getPlayerTurn() + " to play";
         }
 
         view.displayMessage(message);
@@ -137,5 +146,6 @@ public class Game implements ChessController {
         view.putPiece(PieceType.KING, PlayerColor.BLACK, 4, 7);
 
         board.setPlayerTurn(PlayerColor.WHITE);
+        view.displayMessage(board.getPlayerTurn() + " to play");
     }
 }
