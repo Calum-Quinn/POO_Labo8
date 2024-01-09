@@ -23,8 +23,7 @@
   Ces interfaces sont principalement utilisées pour appeler les méthodes de la classe `ChessView` sans avoir un lien
   direct entre la classe utilitaire `Board` et la classe de gestion `Game`.
 - L'attribut `BOARD_SIZE` de `Board` est constant et permet de définir la taille du plateau de jeu qui est de 8x8. De
-  plus,
-  cet attribut est statique car il est commun à toutes les instances de `Board`.
+  plus, cet attribut est statique car il est commun à toutes les instances de `Board`.
 - La classe abstraite `Piece` contient une methode `textValue` qui sert à rendre un `String` du nom de la pièce pour
   l'affichage graphique. Ceci permet notemment de proposer à l'utilisateur,
   les différents choix de promotion pour un pion.
@@ -80,14 +79,14 @@
   ça reste le tour de la même couleur.
 - Seulement le joueur en blanc peut jouer le premier tour.
 - Après un déplacement seulement le joueur opposé peut déplacer une pièce.
-- Avant chaque déplacement, le message "<PlayerColor> to play" est affiché en haut de l'écran.
+- Avant chaque déplacement, le message "\<PlayerColor> to play" est affiché en haut de l'écran.
 - Lors de chaque déplacement nous controlons que le roi du joueur actuel n'est pas mis en échec, si c'est le cas la
   pièce n'est pas déplacée.
 - Pour chaque déplacement nous controlons si le roi du joueur opposé est mis en échec, un message "Check!" s'affiche si
   c'est le cas.
 - Si le roi du joueur actuel est en échec, les seuls déplacements possibles sont ceux qui sortent le roi de l'échec.
 - Après chaque déplacement, si le roi est en échec on contrôle s'il y a un quelconque déplacement légal permettant de
-  sortir le roi de l'échec, si ce n'est pas le cas le message "Checkmate <PlayerColor> wins!" s'affiche et plus personne
+  sortir le roi de l'échec, si ce n'est pas le cas le message "Checkmate \<PlayerColor> wins!" s'affiche et plus personne
   ne peut jouer.
 - Quand l'utilisateur clique sur "New Game", les pièces se remettent à la bonne place et c'est à nouveau aux blancs de
   jouer.
