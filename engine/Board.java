@@ -31,6 +31,7 @@ public class Board {
     private Piece lastMoved;
 
     private PlayerColor playerTurn;
+
     public Board() {
         pieces = new Piece[8][8];
         lastMoved = null;
@@ -40,13 +41,17 @@ public class Board {
         return pieces;
     }
 
-    public void setPieces(Piece[][] pieces) {this.pieces = pieces;}
+    public void setPieces(Piece[][] pieces) {
+        this.pieces = pieces;
+    }
 
     public Piece getLastMoved() {
         return lastMoved;
     }
 
-    public PlayerColor getPlayerTurn() {return playerTurn;}
+    public PlayerColor getPlayerTurn() {
+        return playerTurn;
+    }
 
     public void setPlayerTurn(PlayerColor playerTurn) {
         this.playerTurn = playerTurn;
@@ -78,32 +83,33 @@ public class Board {
     public void setPiece(Piece piece, int x, int y) {
         pieces[x][y] = piece;
 
-        if (onAdd != null)
+        if (onAdd != null) {
             onAdd.action(piece, x, y);
+        }
     }
 
     /**
      * Remove a piece from a certain position.
      *
-     * @param x     x coordinate.
-     * @param y     y coordinate.
+     * @param x x coordinate.
+     * @param y y coordinate.
      */
     public void removePiece(int x, int y) {
         pieces[x][y] = null;
 
         if (onCapture != null) {
-            onCapture.action(x,y);
+            onCapture.action(x, y);
         }
     }
 
     /**
      * Check's whether the piece in the starting square can legally move to the destination square.
      *
-     * @param fromX     Starting x coordinate.
-     * @param fromY     Starting y coordinate.
-     * @param toX       Desired x coordinate.
-     * @param toY       Desired y coordinate.
-     * @return          Valid move or not.
+     * @param fromX Starting x coordinate.
+     * @param fromY Starting y coordinate.
+     * @param toX   Desired x coordinate.
+     * @param toY   Desired y coordinate.
+     * @return Valid move or not.
      */
     public boolean canMove(int fromX, int fromY, int toX, int toY) {
         Piece piece = pieces[fromX][fromY];
@@ -122,12 +128,12 @@ public class Board {
         boolean capture = pieces[toX][toY] != null;
 
         // Check not capturing comrades unless castle
-        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King && Math.max(Math.abs(toX - fromX),Math.abs(toY - fromY)) > 1 && piece.validMove(fromX,fromY,toX,toY,this,true))) {
+        if (capture && pieces[toX][toY].getColor() == piece.getColor() && !(piece instanceof King && Math.max(Math.abs(toX - fromX), Math.abs(toY - fromY)) > 1 && piece.validMove(fromX, fromY, toX, toY, this, true))) {
             return false;
         }
 
         // Check for valid move
-        if (piece.validMove(fromX,fromY,toX,toY,this, capture)) {
+        if (piece.validMove(fromX, fromY, toX, toY, this, capture)) {
             // Check the move does not put the king in check
             return kingSafe(fromX, fromY, toX, toY, capture);
         }
@@ -137,10 +143,10 @@ public class Board {
     /**
      * Moves the piece from the starting position to the desired square.
      *
-     * @param fromX     Starting x coordinate.
-     * @param fromY     Starting y coordinate.
-     * @param toX       Desired x coordinate.
-     * @param toY       Desired y coordinate.
+     * @param fromX Starting x coordinate.
+     * @param fromY Starting y coordinate.
+     * @param toX   Desired x coordinate.
+     * @param toY   Desired y coordinate.
      */
     public void move(int fromX, int fromY, int toX, int toY) {
 
@@ -152,14 +158,13 @@ public class Board {
         if (piece instanceof King && Math.abs(fromX - toX) > 1) {
             if (onCastle != null) {
                 onCastle.action(fromX, fromX - toX > 0 ? 0 : 7, fromY);
-                setPiece(piece,fromX - toX > 0 ? 2 : 6,fromY);
+                setPiece(piece, fromX - toX > 0 ? 2 : 6, fromY);
             }
-        }
-        else {
-            setPiece(piece,toX,toY);
+        } else {
+            setPiece(piece, toX, toY);
         }
 
-        removePiece(fromX,fromY);
+        removePiece(fromX, fromY);
 
         // Pawn move
         if (piece instanceof Pawn p) {
@@ -167,12 +172,12 @@ public class Board {
 
             // Promotion
             if (toY == 7 || toY == 0) {
-                promotePawn(p,toX,toY);
+                promotePawn(p, toX, toY);
             }
 
             // If valid move and diagonal not capture -> en passant
             if (!capture && fromX != toX) {
-                removePiece(toX,toY - (piece.getColor() == PlayerColor.WHITE ? 1 : -1));
+                removePiece(toX, toY - (piece.getColor() == PlayerColor.WHITE ? 1 : -1));
             }
         }
 
@@ -189,13 +194,13 @@ public class Board {
     /**
      * Promotes a pawn to a piece chosen by the user.
      *
-     * @param pawn  Pawn to promote.
-     * @param toX   x coordinate of the pawn.
-     * @param toY   y coordinate of the pawn.
+     * @param pawn Pawn to promote.
+     * @param toX  x coordinate of the pawn.
+     * @param toY  y coordinate of the pawn.
      */
     private void promotePawn(Pawn pawn, int toX, int toY) {
         if (onPromotion != null) {
-            onPromotion.action(pawn,toX,toY);
+            onPromotion.action(pawn, toX, toY);
         }
     }
 
@@ -203,10 +208,10 @@ public class Board {
      * Find the current player's King's position
      *
      * @param color Color of the current player.
-     * @return      x and y coordinates for the king.
+     * @return x and y coordinates for the king.
      */
-    private  int[] findKing(PlayerColor color) {
-        int[] position = {-1,-1};
+    private int[] findKing(PlayerColor color) {
+        int[] position = {-1, -1};
         for (int i = 0; i < pieces.length; ++i) {
             for (int j = 0; j < pieces.length; ++j) {
                 if (pieces[i][j] != null && pieces[i][j] instanceof King && pieces[i][j].getColor() == color) {
@@ -222,12 +227,12 @@ public class Board {
     /**
      * Check's whether the king would be put in check with a specific move.
      *
-     * @param fromX     Starting x coordinate.
-     * @param fromY     Starting y coordinate.
-     * @param toX       Desired x coordinate.
-     * @param toY       Desired y coordinate.
-     * @param capture   Piece on destination square.
-     * @return          King would be in check.
+     * @param fromX   Starting x coordinate.
+     * @param fromY   Starting y coordinate.
+     * @param toX     Desired x coordinate.
+     * @param toY     Desired y coordinate.
+     * @param capture Piece on destination square.
+     * @return King would be in check.
      */
     public boolean kingSafe(int fromX, int fromY, int toX, int toY, boolean capture) {
         // To check whether the king is in danger, we simulate the move being made
@@ -259,13 +264,13 @@ public class Board {
      * Check's whether the king is currently in check.
      *
      * @param color Color of the king to check.
-     * @return      King in check.
+     * @return King in check.
      */
     public boolean isInCheck(PlayerColor color) {
         int[] kingPos = findKing(color);
         for (int i = 0; i < pieces.length; ++i) {
             for (int j = 0; j < pieces.length; ++j) {
-                if (pieces[i][j] != null && pieces[i][j].getColor() != color && pieces[i][j].validMove(i,j,kingPos[0],kingPos[1],this,true)) {
+                if (pieces[i][j] != null && pieces[i][j].getColor() != color && pieces[i][j].validMove(i, j, kingPos[0], kingPos[1], this, true)) {
                     return true;
                 }
             }
@@ -276,7 +281,7 @@ public class Board {
     /**
      * Checks whether check mate has been reached.
      *
-     * @return  Check mate.
+     * @return Check mate.
      */
     public boolean isCheckMate() {
         for (int i = 0; i < pieces.length; ++i) {
@@ -284,7 +289,7 @@ public class Board {
                 if (pieces[i][j] != null && pieces[i][j].getColor() == playerTurn) {
                     for (int k = 0; k < pieces.length; ++k) {
                         for (int l = 0; l < pieces.length; ++l) {
-                            if (canMove(i,j,k,l)) {
+                            if (canMove(i, j, k, l)) {
                                 return false;
                             }
                         }

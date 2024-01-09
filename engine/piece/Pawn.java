@@ -5,7 +5,6 @@ import chess.PlayerColor;
 import engine.Board;
 
 public class Pawn extends SpecialPiece {
-
     private int lastMoveDist;
 
     public Pawn(PlayerColor color, Board board) {
@@ -19,13 +18,11 @@ public class Pawn extends SpecialPiece {
 
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture) {
-
         // Factorisation between white and black pawns
         int whiteBlack = 1;
         if (color == PlayerColor.BLACK) {
             whiteBlack = -1;
         }
-
         // Straight line
         if (!capture && fromX == toX) {
             // 1 square
@@ -34,7 +31,7 @@ public class Pawn extends SpecialPiece {
             }
             // 2 square, check that the pawn is on the correct row and no piece in front
             else {
-                return fromY == toY - 2*whiteBlack && board.getPieces()[fromX][toY - whiteBlack] == null && (whiteBlack == 1 && toY == 3 || whiteBlack == - 1 && toY == 4);
+                return fromY == toY - 2 * whiteBlack && board.getPieces()[fromX][toY - whiteBlack] == null && (whiteBlack == 1 && toY == 3 || whiteBlack == -1 && toY == 4);
             }
         }
         // Capture

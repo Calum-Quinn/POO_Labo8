@@ -29,20 +29,20 @@ public abstract class Piece implements ChessView.UserChoice {
     /**
      * Check's whether a specific move is valid for the piece currently on the departure square.
      *
-     * @param fromX     Starting x coordinate.
-     * @param fromY     Starting y coordinate.
-     * @param toX       Desired x coordinate.
-     * @param toY       Desired y coordinate.
-     * @param board     Game board to analyse.
-     * @param capture   Piece on the destination square.
-     * @return          Valid move.
+     * @param fromX   Starting x coordinate.
+     * @param fromY   Starting y coordinate.
+     * @param toX     Desired x coordinate.
+     * @param toY     Desired y coordinate.
+     * @param board   Game board to analyse.
+     * @param capture Piece on the destination square.
+     * @return Valid move.
      */
     public abstract boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture);
 
     /**
      * Provides a name for each type of piece for the graphic interface.
      *
-     * @return  Piece type name.
+     * @return Piece type name.
      */
     public abstract String textValue();
 }

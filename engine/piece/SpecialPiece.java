@@ -4,7 +4,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 import engine.Board;
 
-public abstract class SpecialPiece extends Piece{
+public abstract class SpecialPiece extends Piece {
 
     protected boolean moved;
 
@@ -16,7 +16,7 @@ public abstract class SpecialPiece extends Piece{
     /**
      * Check's whether a piece has been moved before.
      *
-     * @return  Piece has not been moved.
+     * @return Piece has not been moved.
      */
     public boolean hasNotMoved() {
         return !moved;

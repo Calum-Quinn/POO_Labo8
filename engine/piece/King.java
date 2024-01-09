@@ -14,7 +14,7 @@ public class King extends SpecialPiece {
 
         int xDiff = Math.abs(fromX - toX);
         int yDiff = Math.abs(fromY - toY);
-        int xCorner = fromX - toX < 0 ? 7 : 0 ;
+        int xCorner = fromX - toX < 0 ? 7 : 0;
         // 1 square
         if (xDiff == 1 && yDiff == 0 || xDiff == 0 && yDiff == 1 || xDiff == 1 && yDiff == 1) {
             super.moved = true;

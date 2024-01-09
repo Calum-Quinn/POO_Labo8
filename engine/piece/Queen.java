@@ -11,11 +11,10 @@ public class Queen extends Piece {
 
     @Override
     public boolean validMove(int fromX, int fromY, int toX, int toY, Board board, boolean capture) {
-
         // Check if valid bishop or rook move
-        Bishop bishop = new Bishop(color,board);
-        Rook rook = new Rook(color,board);
-        return bishop.validMove(fromX,fromY,toX,toY,board,capture) || rook.validMove(fromX,fromY,toX,toY,board,capture);
+        Bishop bishop = new Bishop(color, board);
+        Rook rook = new Rook(color, board);
+        return bishop.validMove(fromX, fromY, toX, toY, board, capture) || rook.validMove(fromX, fromY, toX, toY, board, capture);
     }
 
     @Override

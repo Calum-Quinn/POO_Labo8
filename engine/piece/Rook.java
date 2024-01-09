@@ -18,7 +18,7 @@ public class Rook extends SpecialPiece {
             int xSign = xDiff >= 0 ? xDiff == 0 ? 0 : 1 : -1;
             int ySign = yDiff >= 0 ? yDiff == 0 ? 0 : 1 : -1;
             // Check no pieces in between
-            for (int i = 1; i < Math.max(Math.abs(xDiff),Math.abs(yDiff)); ++i) {
+            for (int i = 1; i < Math.max(Math.abs(xDiff), Math.abs(yDiff)); ++i) {
                 if (board.getPieces()[fromX + i * xSign][fromY + i * ySign] != null) {
                     return false;
                 }

@@ -41,25 +41,24 @@ public class Game implements ChessController {
             } while (userChoice == null);
 
 
-            board.removePiece(x,y);
+            board.removePiece(x, y);
             board.setPiece(userChoice, x, y);
         });
 
-        board.setCastleListener(((kingX,rookX,y) -> {
+        board.setCastleListener(((kingX, rookX, y) -> {
             King king = (King) board.getPieces()[kingX][y];
             Rook rook = (Rook) board.getPieces()[rookX][y];
             int kingTo = kingX - rookX > 0 ? 2 : 6;
             int rookTo = kingTo == 2 ? 3 : 5;
-            board.removePiece(rookX,y);
-            board.removePiece(kingX,y);
-            board.setPiece(king,kingTo,y);
-            board.setPiece(rook,rookTo,y);
+            board.removePiece(rookX, y);
+            board.removePiece(kingX, y);
+            board.setPiece(king, kingTo, y);
+            board.setPiece(rook, rookTo, y);
         }));
     }
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-
         boolean move = false;
 
         if (board.canMove(fromX, fromY, toX, toY)) {
@@ -92,7 +91,6 @@ public class Game implements ChessController {
      */
     @Override
     public void newGame() {
-
         board.setPieces(new Piece[8][8]);
 
         // Pawns
